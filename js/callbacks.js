@@ -30,7 +30,7 @@ function generateHTML(data) {
   }else{
     section.innerHTML = `
       <h2>${data.title}</h2>
-      <p>The above name has multiple entries on Wikipedia - please search for more information on this astronaught yourself on <a target="_blank" href="https://en.wikipedia.org">Wikipedia</a>.</p>
+      <p>The above name has multiple entries on Wikipedia - please see the <a target="_blank" href=${data.content_urls.desktop.page}>Wikipedia disambiguation page</a>.</p>
       <p>Sorry for the inconvenience.</p>
     `;
   }
