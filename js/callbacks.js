@@ -20,12 +20,20 @@ function getJSON(url, callback) {
 function generateHTML(data) {
   const section = document.createElement('section');
   peopleList.appendChild(section);
-  section.innerHTML = `
+  if(data.thumbnail){
+    section.innerHTML = `
     <img src=${data.thumbnail.source}>
     <h2>${data.title}</h2>
     <p>${data.description}</p>
     <p>${data.extract}</p>
-  `;
+    `;
+  }else{
+    section.innerHTML = `
+      <h2>${data.title}</h2>
+      <p>The above name has multiple entries on Wikipedia - please search for more information on this astronaught yourself on <a target="_blank" href="https://en.wikipedia.org">Wikipedia</a>.</p>
+      <p>Sorry for the inconvenience.</p>
+    `;
+  }
 }
 
 
