@@ -24,17 +24,28 @@ function generateHTML(data) {
   data.map( person => {
     const section = document.createElement('section');
     peopleList.appendChild(section);
-    section.innerHTML = `
+    if(person.thumbnail){
+      section.innerHTML = `
       <img src=${person.thumbnail.source}>
-      <span>${person.craft}</span>
       <h2>${person.title}</h2>
+      <span>${person.craft}</span>
       <p>${person.description}</p>
       <p>${person.extract}</p>
-    `;
+      `;
+    }else{
+      section.innerHTML = `
+        <h2>${person.title}</h2>
+        <p>The above name has multiple entries on Wikipedia - please see the <a target="_blank" href=${person.content_urls.desktop.page}>Wikipedia disambiguation page</a>.</p>
+        <p>Sorry for the inconvenience.</p>
+      `;
+    }
   });
 }
 
-btn.addEventListener('click', (event) => {
+btn.addEventListener('click', async (event) => {
   event.target.textContent = "Loading...";
 
+  const astros = await getPeopleInSpace(astrosUrl);
+  generateHTML(astros);
+  event.target.remove();
 });
