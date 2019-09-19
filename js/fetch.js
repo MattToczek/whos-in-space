@@ -6,8 +6,12 @@ const btn = document.querySelector('button');
 
 function getProfiles(json) {
   const profiles = json.people.map( person => {
+    const craft = person.craft ;
     return fetch(wikiUrl + person.name)  
             .then( response => response.json() )
+            .then(profile => {
+                return {...profile, craft }
+            })
             .catch( err => console.log('Error Fetching Wiki: ', err) )
   }); 
   return Promise.all(profiles);    
@@ -21,6 +25,7 @@ function generateHTML(data) {
       section.innerHTML = `
       <img src=${person.thumbnail.source}>
       <h2>${person.title}</h2>
+      <span>${person.craft}</span>
       <p>${person.description}</p>
       <p>${person.extract}</p>
       `;
