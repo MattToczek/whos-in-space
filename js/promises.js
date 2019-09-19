@@ -32,21 +32,30 @@ function generateHTML(data) {
   data.map( person => {
     const section = document.createElement('section');
     peopleList.appendChild(section);
-    section.innerHTML = `
-    <img src=${person.thumbnail.source}>
-    <h2>${person.title}</h2>
-    <p>${person.description}</p>
-    <p>${person.extract}</p>
-  `;
+    if(person.thumbnail){
+      section.innerHTML = `
+      <img src=${person.thumbnail.source}>
+      <h2>${person.title}</h2>
+      <p>${person.description}</p>
+      <p>${person.extract}</p>
+      `;
+    }else{
+      section.innerHTML = `
+        <h2>${person.title}</h2>
+        <p>The above name has multiple entries on Wikipedia - please see the <a target="_blank" href=${person.content_urls.desktop.page}>Wikipedia disambiguation page</a>.</p>
+        <p>Sorry for the inconvenience.</p>
+      `;
+    }
   });
   
 }
 
 btn.addEventListener('click', (event) => {
+  event.target.textContent = "Loading...";
+
   getJSON(astrosUrl)
     .then(getProfiles)
     .then( generateHTML )
     .catch( err => console.log(err) )
-    
-  event.target.remove();
+    .finally( () => event.target.remove() )  
 });
